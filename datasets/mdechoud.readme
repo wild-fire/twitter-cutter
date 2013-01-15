@@ -17,6 +17,13 @@ Some tweets may have \n so they are splitted in lines:
     Twitter Weekly Updates for 2009-09-27:\
     Twitter Weekly Updates for 2009-.. http://bit.ly/2zsrn7
 
+Because of this we may have to do some preprocessing on the file, stripping those end of lines preceded by \ with sed.
+
+´´´
+  cat datasets/mdechoud.example | sed -r ':a;N;$!ba;s/\\\n/ /g'
+´´´
+
 ## Date ranges
 
 2008/11 - 2009/10
+
