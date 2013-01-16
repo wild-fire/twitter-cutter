@@ -1,31 +1,21 @@
 require 'wukong'
+require "#{File.dirname(File.expand_path(__FILE__))}/../lib/tweet"
 
 module Normalizers
   module CIKM2010
 
     class Mapper < Wukong::Streamer::RecordStreamer
 
-      # We must parse the Time in the second field and
-      # turn it into the number of seconds since the Epoch
-      # Then we emit a string with all the fields joined by
-      # some bizarre char combination never used in the datasets
       def process user_id, tweet_id, tweet, time
-        timestamp = Time.parse(time).to_i
-        yield [[timestamp, user_id, time, tweet, tweet_id].join("~||~"), 1]
+        yield [Tweet.serialize({user_id: user_id, time: time, text: tweet, id: tweet_id}), 1]
       end
 
     end
 
     class Reducer < Wukong::Streamer::ListReducer
 
-      # We split the string with the tweet info and raise an
-      # exception if there are no 4 fields (this way we test
-      # the bizarre char combinaction is actually not used).
-      # Then we emit the fields joined by \t
       def finalize
-        tweet_fields = key.split("~||~")
-        raise ArgumentError.new("Wrong number of tweet fields ") if tweet_fields.length != 5
-        yield [ tweet_fields.join("\t"), "" ]
+        yield [ Tweet.normalize(key), "" ]
       end
 
     end
