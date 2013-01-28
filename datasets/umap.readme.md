@@ -16,5 +16,5 @@ SELECT id, UNIX_TIMESTAMP(creationTime), creationTime, userId, userName, content
 
 ## Date ranges
 
-2009/06 - 2009/12
+2009/11 - 2011/03
 
