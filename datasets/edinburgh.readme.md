@@ -9,7 +9,9 @@ Edinburgh Twitter Corpus
 
 Dataset is one large file with the following structure:
 
+```
 [date(YYYYMMDDHHmmss)][fake_user_id]\t[tweet]\t[client]
+```
 
 We have not found any tweet splitted on two lines, so we don't need any preprocessing.
 
